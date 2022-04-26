@@ -24,20 +24,35 @@ namespace ControleDeContatos.Controllers
             return View();
         }
 
-        public IActionResult Edit()
+        public IActionResult Edit(int id)
         {
-            return View();
+            ContactModel contact = _contactRepository.ListById(id);
+            return View(contact);
         }
 
-        public IActionResult DeleteConfirm()
+        public IActionResult DeleteConfirm(int id)
         {
-            return View();
+            ContactModel contact = _contactRepository.ListById(id);
+            return View(contact);
+        }
+
+        public IActionResult Delete(int id)
+        {
+            _contactRepository.Delete(id);
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult Create(ContactModel contact)
         {
             _contactRepository.Add(contact);
+            return RedirectToAction("Index");
+        }
+
+        [HttpPost]
+        public IActionResult Edit(ContactModel contact)
+        {
+            _contactRepository.Update(contact);
             return RedirectToAction("Index");
         }
     }
