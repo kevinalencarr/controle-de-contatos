@@ -38,32 +38,71 @@ namespace ControleDeContatos.Controllers
 
         public IActionResult Delete(int id)
         {
-            _contactRepository.Delete(id);
-            return RedirectToAction("Index");
+            try
+            {
+                bool deleted = _contactRepository.Delete(id);
+                if (deleted)
+                {
+                    TempData["SuccessMessage"] = "Contato deletado com sucesso.";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = $"Ops! Algo deu errado.";
+                }
+
+                return RedirectToAction("Index");
+            }
+            catch (System.Exception error)
+            {
+                TempData["ErrorMessage"] = $@"Ops! Algo deu errado.
+                    Detalhes do erro: {error.Message}.";
+                return RedirectToAction("Index");
+            }
         }
 
         [HttpPost]
         public IActionResult Create(ContactModel contact)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _contactRepository.Add(contact);
+                if (ModelState.IsValid)
+                {
+                    _contactRepository.Add(contact);
+                    TempData["SuccessMessage"] = "Contato cadastrado com sucesso.";
+                    return RedirectToAction("Index");
+                }
+
+                return View(contact);
+            }
+            catch (System.Exception error)
+            {
+                TempData["ErrorMessage"] = $@"Ops! Algo deu errado.
+                    Detalhes do erro: {error.Message}.";
                 return RedirectToAction("Index");
             }
-
-            return View(contact);
         }
 
         [HttpPost]
         public IActionResult Edit(ContactModel contact)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _contactRepository.Update(contact);
+                if (ModelState.IsValid)
+                {
+                    _contactRepository.Update(contact);
+                    TempData["SuccessMessage"] = "Contato editado com sucesso.";
+                    return RedirectToAction("Index");
+                }
+
+                return View(contact);
+            }
+            catch (System.Exception error)
+            {
+                TempData["ErrorMessage"] = $@"Ops! Algo deu errado.
+                    Detalhes do erro: {error.Message}";
                 return RedirectToAction("Index");
             }
 
-            return View(contact);
         }
     }
 }

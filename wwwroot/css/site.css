@@ -20,3 +20,25 @@ body {
 .field-validation-error {
   color: #CE4141;
 }
+
+.close-alert {
+  font-size: 10px;
+  position: absolute;
+  right: -10px;
+  top: -15px;
+  border-radius: 30px;
+  width: 25px;
+  height: 25px;
+}
+
+.alert-success {
+  width: auto;
+  margin: auto;
+  max-width: fit-content;
+}
+
+.alert-danger {
+  width: auto;
+  margin: auto;
+  max-width: fit-content;
+}
